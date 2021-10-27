@@ -65,7 +65,6 @@
 
        
       $mealCount  =$count['meal'] ;
-      $mealAvg = round(($mealCount / $total),1) ;
        
 
       $movieCount= mysqli_query($db,"SELECT COUNT(movie) as movie FROM foodTable where movie = 1 or movie = 2 or movie = 3");
@@ -73,7 +72,6 @@
 
        
       $movieCount  =$count['movie'] ;
-      $movieAvg = round(($movieCount / $total),1) ;
 
 
       $tvCount= mysqli_query($db,"SELECT COUNT(tv) as tv FROM foodTable where tv = 1 or tv = 2 or tv = 3");
@@ -81,7 +79,6 @@
 
        
       $tvCount  =$count['tv'] ;
-      $tvAvg = round(($tvCount / $total),1) ;
 
 
       $radioCount= mysqli_query($db,"SELECT COUNT(radio) as radio FROM foodTable where radio = 1 or radio = 2 or radio = 3");
@@ -89,13 +86,14 @@
 
        
       $radioCount  =$count['radio'] ;
-      $radioAvg = round(($radioCount / $total),1) ;
+      
 
 ?>
 
 </head>
   <body >
-      <table>
+  	   <br><br><br>
+       <table style = "txt/css" width=26%>
 	    
     		<tr>
     			<th>Ratings</th>
@@ -127,7 +125,7 @@
 
     		<br>
 
-         <table>
+          <table style = "txt/css" width=26%>
     	    
     		<tr>
     			<th>Favourite Food Ratings</th>
@@ -152,7 +150,7 @@
 	       </table>
       <br>
 
-	 <table>
+	 <table style = "txt/css" width=26%>
 	    
 		<tr>
 			<th>Peoples Ratings</th>
@@ -161,22 +159,22 @@
 
         <tr> 	
         <th>People Who Like To eat Out</th>
-        <th><?php echo $mealAvg; ?></th>
+        <th><?php echo $mealCount; ?></th>
         </tr>
 
         <tr>
         <th>People Who Like To Watch Movies </th>
-        <th><?php echo $movieAvg; ?></th>
+        <th><?php echo $movieCount; ?></th>
         </tr>
 
         <tr>
         <th>People Who Like To Watch Tv  </th>
-        <th><?php echo $tvAvg; ?></th>
+        <th><?php echo $tvCount; ?></th>
         </tr>
 
         <tr>
         <th>People Who Like To Listen To Radio  </th>
-        <th><?php echo $radioAvg; ?></th>
+        <th><?php echo $radioCount; ?></th>
         </tr>
 
 	</table>
@@ -185,7 +183,7 @@
 	
 	table, tr, th  {
 
-	border: 2px solid black;
+  border: 2px solid black;
   align-content: center;
   line-height: 30px;
   column-width: 150px;
@@ -216,10 +214,10 @@
   button {
     
    color:  black; 
-
+   
    height: 40px;
-   width:200px;
-   margin-left: 500px;
+   width:500px;
+   margin-left: 0px;
    background-color: green;
    cursor: pointer;
   }

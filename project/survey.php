@@ -14,64 +14,70 @@ include'connect.php';
 		if (isset($_POST['submit'])) 
 		{
 			// Check if the entered age is between is not less than 5 and not greater than 120
+			
+			
 
-			if($_POST['age'] >=5 && $_POST['age'] <=120)
-			{
-				//Check if one or more favourite food checkbox is checked
-				if (!empty($_POST['foodOption'])) 
+				if($_POST['age'] >=5 && $_POST['age'] <=120)
 				{
-					//assign and insert values to database
-					if (!empty($_POST["meals"]) && !empty($_POST["movie"]) && !empty($_POST["tv"]) && !empty($_POST["radio"])) 
+					//Check if one or more favourite food checkbox is checked
+					if (!empty($_POST['foodOption'])) 
 					{
-
-						$surname = $_POST['surname'];
-						$firstName = $_POST['firstName'];
-						$contactNum = $_POST['contactNum'];
-						$date = $_POST['date'];
-						$dateH = date("d/m/yy");
-						$age = $_POST['age'];
-						$meals = $_POST['meals'];
-						$movie = $_POST['movie'];
-						$tv = $_POST['tv'];
-						$radio = $_POST['radio'];
-
-						//assigning values for the checkbox
-						foreach ($_POST['foodOption'] as $food) 
+						//assign and insert values to database
+						if (!empty($_POST["meals"]) && !empty($_POST["movie"]) && !empty($_POST["tv"]) && !empty($_POST["radio"]) && !empty($_POST["surname"])) 
 						{
-							$food = implode(",", $_POST['foodOption']);
-						}
 
-						//Database
+							$surname = $_POST['surname'];
+							$firstName = $_POST['firstName'];
+							$contactNum = $_POST['contactNum'];
+							$date = $_POST['date'];
+							$dateH = date("d/m/yy");
+							$age = $_POST['age'];
+							$meals = $_POST['meals'];
+							$movie = $_POST['movie'];
+							$tv = $_POST['tv'];
+							$radio = $_POST['radio'];
 
-						$insert = mysqli_query($db, "insert into foodtable(contactNum,surname,firstName,date,age,favFood,meals,movie,tv,radio) values('$contactNum','$surname','$firstName','$date','$age','".$food."','$meals','$movie','$tv','$radio')");
-
-							if ($insert)
+							//assigning values for the checkbox
+							foreach ($_POST['foodOption'] as $food) 
 							{
-								
-								echo "<script>alert('Thank You For Taking Our Survey');</script>";
-								$extra="index.php";
-								header("location:$extra");
-	 						}					
+								$food = implode(",", $_POST['foodOption']);
+							}
+
+							//Database
+
+							$insert = mysqli_query($db, "insert into foodTable(contactNum,surname,firstName,date,age,favFood,meals,movie,tv,radio) values('$contactNum','$surname','$firstName','$date','$age','".$food."','$meals','$movie','$tv','$radio')");
+
+								if ($insert)
+								{
+									
+									$extra="index.php";
+									header("location:$extra");
+		 						}
 
 
+
+						}
+						else
+						{
+							echo "<script>alert('Please Select At Least one radio box per row');</script>";
+						}
 					}
 					else
 					{
-						echo "<script>alert('Please Select At Least one radio box per row');</script>";
+						echo "<script>alert('Please Select One or More favourite food');</script>";	
 					}
+
+					echo "<script>alert('Contact number already used');</script>";
 				}
 				else
 				{
-					echo "<script>alert('Please Select One or More favourite food');</script>";	
+					echo "<script>alert('Sorry, Your Age Does Not Allow You To Take This Survey');</script>";
 				}
+				
 
-				echo "<script>alert('Survey Submitted');</script>";
 			}
-			else
-			{
-				echo "<script>alert('Sorry, Your Age Does Not Allow You To Take This Survey');</script>";
-			}
-		}
+		
+		
 	?>
 </head>
 <body>
@@ -82,32 +88,33 @@ include'connect.php';
 		<form method="post">
 			<div id = "content1">
 				<label>Surname</label><br><br>
-				<input type="text" name ="surname"class=" input-field" placeholder="Enter your Surname" title = "Please Enter Your Surname."
-				 value ="<?php  if (isset($_POST['submit'])) 
+				<input type="text" name ="surname"class=" input-field" placeholder="Enter your Surname"  title= "Please Enter Your Surname."
+				  required value ="<?php  if (isset($_POST['submit'])) 
 								 {
 								 	echo htmlentities(($_POST['surname']));
 								 }?>"><br><br>
 
 
 				<label>First names</label><br><br>
-				<input type="text" name ="firstName"class=" input-field" placeholder="Enter your First names" title="Please Enter Your First Names." value="<?php if(isset($_POST['submit']))
-				 							{
-				 								echo htmlentities(($_POST['firstName']));
+				<input type="text" name ="firstName"class=" input-field" placeholder="Enter your First names" title="Please Enter Your First Names." required value="<?php if(isset($_POST['submit']))
+						 							{
+						 								echo htmlentities(($_POST['firstName']));
 
-				 							}?>"><br><br>
+						 							}?>"><br><br>
 
 
 				<label>Contact number</label><br><br>
-				<input type="number" name = "contactNum" class="input-field" placeholder="Enter your Contact number" title="Please Enter Your Contact Numbers In This Format 066 068 9026." pattern = "(\+27|0)[6-8][0-9]{8}" minlength="10" maxlength="10" 
-				 value="<?php if(isset($_POST['submit']))
-								{
-									echo htmlentities(($_POST['contactNum']));
+				<input type="tel" name = "contactNum" class="input-field" placeholder="Enter your Contact number" title="Please Enter Your Contact Numbers In This Format 066 068 9026." pattern = "(\+27|0)[6-8][0-9]{8}" minlength="10" maxlength="10" 
+				 required value="<?php if(isset($_POST['submit']))
+										{
+											echo htmlentities(($_POST['contactNum']));
 
-								} ?>"><br><br>
+										} ?>"><br><br>
 
 
 				<label>Date</label><br><br>
-				<input type="Date" name="date" class="input-field" placeholder="Enter the Date" title="Please Enter Today's Date." value="<?php if(isset($_POST['submit']))
+				<input type="Date" name="date" class="input-field" placeholder="Enter the Date" title="Please Enter Today's Date." 
+				required value="<?php if(isset($_POST['submit']))
 								{
 									echo htmlentities(($_POST['date']));
 
@@ -116,11 +123,11 @@ include'connect.php';
 
 				<label >Age</label><br><br>
 				<input type="Age" name="age" class="input-field" placeholder="Enter your Age" title="Please Enter Your Age."
-				value = "<?php if(isset($_POST['submit'])) 
-								{
-									echo htmlentities(($_POST['age']));
+				required value = "<?php if(isset($_POST['submit'])) 
+										{
+											echo htmlentities(($_POST['age']));
 
-								}?>"><br><br>
+										}?>"><br><br>
 
 
 				<label">What is your favourite food? (You can choose more than 1 answer)</label><br><br>
@@ -175,7 +182,7 @@ include'connect.php';
 
 						<tr>
 							<th>I like to listen to radio </th>
-							<th><input type="radio" name="radio" value="1" > </th>
+							<th><input type="radio" name="radio" value="1"> </th>
 							<th><input type="radio" name="radio" value="2"> </th>
 							<th><input type="radio" name="radio" value="3"> </th>
 							<th><input type="radio" name="radio" value="4"> </th>
@@ -184,7 +191,7 @@ include'connect.php';
 						</tr>
 					</table>
 
-				<button type="submit" href = "project/survey.php" name = "submit"><h3>Submit</button>
+				<button type="submit" href = "project/survey.php" name = "submit" ><h3>Submit</button>
 			</div>
 		</form>
 </body>
