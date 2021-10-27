@@ -26,7 +26,7 @@ include'connect.php';
 </head>
 <body>
 	<form align = "center" action="index.php" method = "post">
-		<button type ="submit" name ="form" >Fill Out Survey</button>
+		<button type ="submit" name ="form" >Fill Out Survey</button>&nbsp&nbsp
 		<button type="submit " name="results">View Survey Results</button>
 
 		<style>
